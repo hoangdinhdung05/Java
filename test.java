@@ -1,93 +1,70 @@
-package Java;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
-class Person {
-    private String ten, ngaySinh, diaChi;
-    public Person() {
-        ten = ngaySinh = diaChi = "";
-    }
-    public Person(String ten, String ngaySinh, String diaChi) {
-        this.ten = ten;
-        this.ngaySinh = ngaySinh;
-        this.diaChi = diaChi;
-    }
-    public void chuanHoa(){
-        String[] arr = this.ten.split("\\s+");
-        String res = "";
-        for(String x : arr){
-            res += Character.toUpperCase(x.charAt(0));
-        for(int j = 1; j < x.length(); j++){
-            res += Character.toLowerCase(x.charAt(j));
-            }
-            res += " ";
-        }
-        this.ten = res.substring(0, res.length() - 1);
-        StringBuilder sb = new StringBuilder(this.ngaySinh);
-        if(sb.charAt(1) == '/') sb.insert(0, "0");
-        if(sb.charAt(4) == '/') sb.insert(3, "0");
-        this.ngaySinh = sb.toString();
+class sinhvien {
+    private String id, name, group, email;
 
+    public sinhvien(String id, String name, String group, String email) {
+        this.id = id;
+        this.name = name;
+        this.group = group;
+        this.email = email;
     }
-        //Nguyen Van Nam => NamNguyenVan
-    public String getSortedName(){
-        String[] arr = this.ten.split("\\s+");
-        String res = arr[arr.length - 1];
-        for(int i = 0; i < arr.length - 1; i++){
-            res += arr[i] + " ";
-        }
-            return res;
+
+    public String getName() {
+        return this.name;
     }
+
+    public String getGroup() {
+        return this.group;
+    }
+
+    public String setName(String n) {
+        return this.name = n;
+    }
+
+
+    public boolean checkGroup(String group) {
+        if(this.group.equals(group)) {
+            return true;
+        } else return false;
+    }
+
     @Override
-    public String toString(){
-        return this.ten + " " + this.ngaySinh + " " + this.diaChi;
-    }
-}
-class Student extends Person{
-    private String maSinhVien, lop;
-    private double gpa;
-    public Student(int maSinhVien, String lop, double gpa, String ten, String ngaySinh, String diaChi) {
-        super(ten, ngaySinh, diaChi);
-        this.maSinhVien = String.format("%04d", maSinhVien);
-        this.lop = lop;
-        this.gpa = gpa;
-    }
-    @Override
-    public String toString(){
-        return this.maSinhVien + " " + super.toString() + " " + this.lop + " " + String.format("%.2f", this.gpa);
+    public String toString() {
+        return this.id + " " + this.name + " " + this.group + " " + this.email;
     }
 }
 
-public class test {
+
+
+public class Test {
     public static void main(String[] args) {
-        ArrayList<Student> arr = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        for(int i = 0; i < n; i++){
-            sc.nextLine();
-            String ten = sc.nextLine();
-            String ngaySinh = sc.nextLine();
-            String diaChi = sc.nextLine();
-            String lop = sc.nextLine();
-            double diem = sc.nextDouble();
-            Student sinhVien = new Student(i + 1, lop, diem, ten, ngaySinh, diaChi);
 
-            sinhVien.chuanHoa();
-            arr.add(sinhVien);
+        sinhvien a = new sinhvien("1", "Dung", "HT22", "hoangdung22@gmail.com");
+        sinhvien b = new sinhvien("1", "Dung", "HT22", "hoangdung22@gmail.com");
+
+        System.out.println("Danh sach sinh vien: ");
+        System.out.println(a);
+        System.out.println(b);
+
+        System.out.println();
+
+        System.out.println("Vui long nhap ten can thay doi");
+        String n = sc.nextLine();
+        a.setName(n);
+
+        System.out.println("Thong tin sinh vien sau khi thay doi: ");
+        System.out.println(a);
+
+        System.out.println("Kiểm tra cùng lớp: ");
+
+        if(a.checkGroup(b.getGroup())) {
+            System.out.println("Cùng lớp");
+        } else {
+            System.out.println("Khác lớp");
         }
-        Collections.sort(arr, new Comparator<Student>(){
-            @Override
-            public int compare(Student o1, Student o2) {
-            return o1.getSortedName().compareTo(o2.getSortedName());
-            }
-        });
-        for(Student x : arr){
-        System.out.println(x);
-    }
+        sc.close();
     }
 }
